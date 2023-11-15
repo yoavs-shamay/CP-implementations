@@ -20,5 +20,10 @@ typedef struct ModInt
     bool operator==(const ModInt &other) const { return val == other.val; }
     bool operator!=(const ModInt &other) const { return val != other.val; }
     friend ostream &operator<<(ostream &os, const ModInt &other) { return os << other.val; }
+    friend istream &operator>>(istream &is, ModInt &input)
+    {
+        is >> input.val;
+        return is;
+    }
 } ModInt;
 ModInt modPow(ModInt a, ModInt b) {return a.pow(b);}
