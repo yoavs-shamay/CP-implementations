@@ -1,4 +1,3 @@
-
 v dijkstra(vvp &graph, ll initial)
 {
     ll N = graph.size();
