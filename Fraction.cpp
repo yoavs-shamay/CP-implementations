@@ -1,8 +1,7 @@
-
 typedef class Fraction
 {
 public:
-    ll num, denom;
+    long long num, denom;
 
     void _reduce()
     {
@@ -11,14 +10,14 @@ public:
         denom /= g;
     }
 
-    Fraction(ll u, ll d)
+    Fraction(long long u, long long d)
     {
         num = u;
         denom = d;
         _reduce();
     }
 
-    Fraction(ll x)
+    Fraction(long long x)
     {
         num = x;
         denom = 1;
@@ -76,6 +75,35 @@ public:
         denom *= o.num;
         _reduce();
     }
+
+    bool operator<(Fraction o)
+    {
+        return num * o.denom < o.num * denom;
+    }
+
+    bool operator>(Fraction o)
+    {
+        return num * o.denom > o.num * denom;
+    }
+
+    bool operator==(Fraction o)
+    {
+        return num * o.denom == o.num * denom;
+    }
+
+    operator long long() const {return num;}
+
+    void operator++()
+    {
+        num += denom;
+        _reduce();
+    }
+
+    void operator--()
+    {
+        num -= denom;
+        _reduce();
+    }
 } Fraction;
 
 ostream& operator<<(ostream& os, const Fraction& f)
@@ -86,7 +114,7 @@ ostream& operator<<(ostream& os, const Fraction& f)
 
 istream& operator>> (istream& is, Fraction& f)
 {
-    ll cur;
+    long long cur;
     is >> cur;
     f = Fraction(cur);
     return is;
