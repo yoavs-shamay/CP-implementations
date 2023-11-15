@@ -5,7 +5,7 @@ public:
 
     void _reduce()
     {
-        ll g = gcd(num, denom);
+        long long g = gcd(num, denom);
         num /= g;
         denom /= g;
     }
@@ -20,6 +20,12 @@ public:
     Fraction(long long x)
     {
         num = x;
+        denom = 1;
+    }
+
+    Fraction()
+    {
+        num = 0;
         denom = 1;
     }
 
@@ -48,32 +54,36 @@ public:
         return Fraction(num * o.denom, denom * o.num);
     }
 
-    Fraction operator+=(Fraction o)
+    Fraction& operator+=(Fraction o)
     {
         num = num * o.denom + o.num * denom;
         denom *= o.denom;
         _reduce();
+        return *this;
     }
 
-    Fraction operator-=(Fraction o)
+    Fraction& operator-=(Fraction o)
     {
         num = num * o.denom - o.num * denom;
         denom *= o.denom;
         _reduce();
+        return *this;
     }
 
-    Fraction operator*=(Fraction o)
+    Fraction& operator*=(Fraction o)
     {
         num *= o.num;
         denom *= o.denom;
         _reduce();
+        return *this;
     }
 
-    Fraction operator/=(Fraction o)
+    Fraction& operator/=(Fraction o)
     {
         num *= o.denom;
         denom *= o.num;
         _reduce();
+        return *this;
     }
 
     bool operator<(Fraction o)
@@ -93,16 +103,34 @@ public:
 
     operator long long() const {return num;}
 
-    void operator++()
+    Fraction& operator++()
     {
         num += denom;
         _reduce();
+        return *this;
     }
 
-    void operator--()
+    Fraction& operator--()
     {
         num -= denom;
         _reduce();
+        return *this;
+    }
+
+    Fraction operator++(int)
+    {
+        Fraction cpy = Fraction(num, denom);
+        num += denom;
+        _reduce();
+        return cpy;
+    }
+
+    Fraction operator--(int)
+    {
+        Fraction cpy = Fraction(num, denom);
+        num -= denom;
+        _reduce();
+        return cpy;
     }
 } Fraction;
 
