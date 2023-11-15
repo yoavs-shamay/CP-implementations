@@ -101,7 +101,13 @@ public:
         return num * o.denom == o.num * denom;
     }
 
+    bool operator!=(Fraction o)
+    {
+        return num * o.denom != o.num * denom;
+    }
+
     operator long long() const {return num;}
+    operator double() const {return num / denom;}
 
     Fraction& operator++()
     {
