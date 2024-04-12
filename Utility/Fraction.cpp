@@ -17,10 +17,28 @@ public:
         _reduce();
     }
 
+    Fraction(int x)
+    {
+        num = x;
+        denom = 1;
+    }
+
     Fraction(long long x)
     {
         num = x;
         denom = 1;
+    }
+
+    Fraction(double x)
+    {
+        denom = 1;
+        while (floor(x) != x && denom < 1e15)
+        {
+            x *= 10;
+            denom *= 10; 
+        }
+        num = x;
+        _reduce();
     }
 
     Fraction()
@@ -106,8 +124,15 @@ public:
         return num * o.denom != o.num * denom;
     }
 
-    operator long long() const {return num;}
-    operator double() const {return num / denom;}
+    bool operator<=(Fraction o)
+    {
+        return num * o.denom <= o.num * denom;
+    }
+
+    bool operator>=(Fraction o)
+    {
+        return num * o.denom >= o.num * denom;
+    }
 
     Fraction& operator++()
     {
@@ -138,17 +163,25 @@ public:
         _reduce();
         return cpy;
     }
+
+    operator double() const
+    {
+        return num / denom;
+    }
 } Fraction;
 
 ostream& operator<<(ostream& os, const Fraction& f)
 {
-    os << f.num;
+    if (f.denom == 1)
+        os << f.num;
+    else
+        os << f.num / f.denom;
     return os;
 }
 
 istream& operator>> (istream& is, Fraction& f)
 {
-    long long cur;
+    double cur;
     is >> cur;
     f = Fraction(cur);
     return is;

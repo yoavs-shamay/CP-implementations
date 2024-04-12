@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 typedef long long ll;
 typedef pair<ll,ll> p;
 typedef pair<ll, p> tri;
@@ -17,8 +18,10 @@ typedef vector<p> vp;
 typedef vector<vp> vvp;
 typedef vector<vvp> vvvp;
 typedef vector<vvvp> vvvvp;
+
 const ll mod = 1e9 + 7;
-const ll INF = 1e15;
+const ll INF = 1e18;
+
 #define f first
 #define s second
 #define pb push_back
