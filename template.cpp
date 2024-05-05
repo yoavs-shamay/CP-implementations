@@ -31,6 +31,12 @@ const ll INF = 1e18;
 #define setmax(a, b) a = max(a, b)
 #define all(v) v.begin(), v.end()
 
+typedef ll (*operation) (ll a, ll b);
+
+const operation addOp = [](ll a, ll b){return a + b;};
+const operation maxOp = [](ll a, ll b){return max(a, b);};
+const operation minOp = [](ll a, ll b){return min(a, b);};
+
 int main()
 {
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
