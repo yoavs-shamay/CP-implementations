@@ -18,6 +18,10 @@ typedef vector<p> vp;
 typedef vector<vp> vvp;
 typedef vector<vvp> vvvp;
 typedef vector<vvvp> vvvvp;
+#define double long double
+typedef vector<double> vd;
+typedef vector<vd> vvd;
+typedef vector<vvd> vvvd;
 
 const ll mod = 1e9 + 7;
 const ll INF = 1e18;
@@ -30,12 +34,6 @@ const ll INF = 1e18;
 #define setmin(a, b) a = min(a, b)
 #define setmax(a, b) a = max(a, b)
 #define all(v) v.begin(), v.end()
-
-typedef ll (*operation) (ll a, ll b);
-
-const operation addOp = [](ll a, ll b){return a + b;};
-const operation maxOp = [](ll a, ll b){return max(a, b);};
-const operation minOp = [](ll a, ll b){return min(a, b);};
 
 int main()
 {
