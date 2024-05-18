@@ -38,14 +38,16 @@ struct SegmentTree
         Node *l = cur->getLeft(defaultValue, lazyDefault), *r = cur->getRight(defaultValue, lazyDefault);
         l->lazy = lazyOp(l->lazy, cur->lazy);
         r->lazy = lazyOp(r->lazy, cur->lazy);
+        l->value = lazyOp(l->value, cur->lazy);
+        r->value = lazyOp(r->value, cur->lazy);
         cur->lazy = lazyDefault;
     }
     ll _query(Node *cur, ll l, ll r, ll tl, ll tr)
     {
+        _push(cur);
         if (tl >= l && tr <= r)
             return cur->value;
         if (tr < l || tl > r) return defaultValue;
-        _push(cur);
         ll tmid = (tl + tr) / 2;
         return op(_query(cur->getLeft(defaultValue, lazyDefault), l, min(r, tmid), tl, tmid), _query(cur->getRight(defaultValue, lazyDefault), max(l, tmid + 1), r, tmid + 1, tr));
     }
@@ -59,13 +61,13 @@ struct SegmentTree
         if (tl >= from && tr <= to)
         {
             cur->value = lazyOp(cur->value, updateBy);
-            cur->lazy = lazyOp(cur->value, updateBy);
+            cur->lazy = lazyOp(cur->lazy, updateBy);
             return;
         }
         if (to < tl || from > tr) return;
         ll tmid = (tl + tr) / 2;
-        _update(cur->getLeft(defaultValue, lazyDefault), from, min(to, tmid), newVal, tl, tmid);
-        _update(cur->getRight(defaultValue, lazyDefault), max(from, tmid + 1), to, newVal, tmid + 1, tr);
+        _update(cur->getLeft(defaultValue, lazyDefault), from, min(to, tmid), updateBy, tl, tmid);
+        _update(cur->getRight(defaultValue, lazyDefault), max(from, tmid + 1), to, updateBy, tmid + 1, tr);
         cur->value = op(cur->getLeft(defaultValue, lazyDefault)->value, cur->getRight(defaultValue, lazyDefault)->value);
     }
     void update(ll from, ll to, ll updateBy)
