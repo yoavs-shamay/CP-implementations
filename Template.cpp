@@ -18,6 +18,7 @@ typedef vector<p> vp;
 typedef vector<vp> vvp;
 typedef vector<vvp> vvvp;
 typedef vector<vvvp> vvvvp;
+
 #define double long double
 typedef vector<double> vd;
 typedef vector<vd> vvd;
