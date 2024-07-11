@@ -1,23 +1,24 @@
+template<class T>
 struct SegmentTree
 {
-    v st;
-    v lazy;
+    vector<T> st;
+    vector<T> lazy;
     ll N;
-    ll stInitial;
-    ll lazyInitial;
-    operation stOperation;
-    operation lazyOperation;
-    SegmentTree(ll stInitial, operation stOperation, ll lazyInitial, operation lazyOperation, ll n) 
+    T stInitial;
+    T lazyInitial;
+    operation<T> stOperation;
+    operation<T> lazyOperation;
+    SegmentTree(T stInitial, operation<T> stOperation, T lazyInitial, operation<T> lazyOperation, ll n) 
     {
         this->stInitial = stInitial;
         this->lazyInitial = lazyInitial;
         this->stOperation = stOperation;
         this->lazyOperation = lazyOperation;
         N = pow(2, ceil(log2(n)));
-        st = v(2 * N, stInitial);
-        lazy = v(2 * N, lazyInitial);
+        st = vector<T>(2 * N, stInitial);
+        lazy = vector<T>(2 * N, lazyInitial);
     }
-    SegmentTree(ll stInitial, operation stOperation, ll lazyInitial, operation lazyOperation, v &arr)
+    SegmentTree(T stInitial, operation<T> stOperation, T lazyInitial, operation<T> lazyOperation, vector<T> &arr)
     {
         ll n = arr.size();
         this->stInitial = stInitial;
@@ -25,8 +26,8 @@ struct SegmentTree
         this->stOperation = stOperation;
         this->lazyOperation = lazyOperation;
         N = pow(2, ceil(log2(n)));
-        st = v(2 * N, stInitial);
-        lazy = v(2 * N, lazyInitial);
+        st = vector<T>(2 * N, stInitial);
+        lazy = vector<T>(2 * N, lazyInitial);
         for (ll i = N; i < N + n; i++)
         {
             st[i] = arr[i - N];
@@ -47,7 +48,7 @@ struct SegmentTree
         lazy[2 * index + 1] = lazyOperation(lazy[2 * index + 1], lazy[index]);
         lazy[index] = lazyInitial;
     }
-    void _updateRange(ll add, ll index, ll from, ll to, ll l, ll r)
+    void _updateRange(T add, ll index, ll from, ll to, ll l, ll r)
     {
         if (from > to) return;
         _push(index);
@@ -62,11 +63,11 @@ struct SegmentTree
         _updateRange(add, 2 * index + 1, max(from, mid + 1), to, mid + 1, r);
         st[index] = stOperation(st[2 * index], st[2 * index + 1]);
     }
-    void update(ll add, ll from, ll to)
+    void update(ll from, ll to, T add)
     {
         _updateRange(add, 1, from, to, 0, N - 1);
     }
-    ll _queryRange(ll index, ll tl, ll tr, ll from, ll to)
+    T _queryRange(ll index, ll tl, ll tr, ll from, ll to)
     {
         _push(index);
         if (from > to)
@@ -76,7 +77,7 @@ struct SegmentTree
         ll tmid = (tl + tr) / 2;
         return stOperation(_queryRange(2 * index,  tl, tmid, from, min(to, tmid)),_queryRange(2 * index + 1, tmid + 1, tr, max(from, tmid + 1), to));
     }
-    ll query(ll from, ll to)
+    T query(ll from, ll to)
     {
         return _queryRange(1, 0, N - 1, from, to);
     }

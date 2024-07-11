@@ -1,26 +1,27 @@
+template<class T>
 struct SegmentTree
 {
-    v st;
+    vector<T> st;
     ll N;
-    ll initial;
-    operation op;
-    SegmentTree(ll initial, operation op, ll n) : initial(initial), op(op)
+    T initial;
+    operation<T> op;
+    SegmentTree(T initial, operation<T> op, ll n) : initial(initial), op(op)
     {
         N = pow(2, ceil(log2(n)));
-        st = v(2 * N, initial);
+        st = vector<T>(2 * N, initial);
     }
-    SegmentTree(ll initial, operation op, v &arr) : initial(initial), op(op)
+    SegmentTree(T initial, operation<T> op, vector<T> &arr) : initial(initial), op(op)
     {
         ll n = arr.size();
         N = pow(2, ceil(log2(n)));
-        st = v(2 * N, initial);
+        st = vector<T>(2 * N, initial);
         for (ll i = N; i < N + n; i++)
         {
             st[i] = arr[i - N];
         }
         for (ll i=  N - 1; i > 0; i--) st[i] = op(st[2 * i], st[2 * i + 1]);
     }
-    void update(ll index, ll value)
+    void update(ll index, T value)
     {
         st[index + N] = value;
         ll i = (index + N) / 2;
@@ -30,11 +31,11 @@ struct SegmentTree
             i /= 2;
         }
     }
-    ll query(ll l, ll r)
+    T query(ll l, ll r)
     {
         l += N;
         r += N;
-        ll sum = initial;
+        T sum = initial;
         while (l <= r)
         {
             if (l % 2 == 1)
