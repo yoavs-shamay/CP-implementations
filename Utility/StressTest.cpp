@@ -22,7 +22,7 @@ vp randomTree(ll n)
     vp edges;
     v degree(n, 1);
     for (ll i = 0; i < n - 2; i++) degree[prufer[i]]++;
-    for (ll i = 0; i < n - 2; i++)
+    for (ll i : prufer)
     {
         for (ll j = 0; j < n; j++)
         {
