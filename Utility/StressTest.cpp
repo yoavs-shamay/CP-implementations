@@ -1,8 +1,12 @@
 #include <windows.h> //move to first line if error
 
+random_device rd;
+mt19937 gen(rd());
+
 ll randomNumber(ll from, ll to)
 {
-    return rand() % (to - from + 1) + from;
+    uniform_int_distribution<int> dist(from, to);
+    return dist(gen);
 }
 
 v randomArray(ll n, ll from, ll to)
