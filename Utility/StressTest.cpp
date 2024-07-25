@@ -30,22 +30,20 @@ vp randomTree(ll n)
     vp edges;
     v degree(n, 1);
     for (ll i = 0; i < n - 2; i++) degree[prufer[i]]++;
+    set<ll> degree1;
+    for (ll i = 0; i < n; i++) if (degree[i] == 1) degree1.insert(i);
     for (ll i : prufer)
     {
-        for (ll j = 0; j < n; j++)
-        {
-            if (degree[j] == 1)
-            {
-                edges.eb(i, j);
-                degree[i]--;
-                degree[j]--;
-                break;
-            }
-        }
+        ll j = *degree1.begin();
+        degree1.erase(j);
+        edges.eb(i, j);
+        degree[i]--;
+        if (degree[i] == 0) degree1.erase(i);
+        else if (degree[i] == 1) degree1.insert(i);
     }
-    v degree1;
-    for (ll i =0; i < n; i++) if (degree[i] == 1) degree1.pb(i);
-    edges.eb(degree1[0],degree1[1]);
+    v degree1vec;
+    for (ll x : degree1) degree1vec.pb(x);
+    edges.eb(degree1vec[0],degree1vec[1]);
     return edges;
 }
 
