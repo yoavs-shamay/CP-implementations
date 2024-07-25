@@ -16,6 +16,14 @@ v randomArray(ll n, ll from, ll to)
     return res;
 }
 
+v randomPerm(ll n, bool oneIndex = false)
+{
+    v perm(n);
+    for (ll i = 0; i < n; i++) perm[i] = i + oneIndex;
+    random_shuffle(all(perm));
+    return perm;
+}
+
 vp randomTree(ll n)
 {
     v prufer = randomArray(n - 2, 0, n - 1);
@@ -113,14 +121,6 @@ vv graphFromEdgeArray(ll n, vp &edges)
         res[x.s].pb(x.f);
     }
     return res;
-}
-
-v randomPerm(ll n, bool oneIndex = false)
-{
-    v perm(n);
-    for (ll i = 0; i < n; i++) perm[i] = i + oneIndex;
-    random_shuffle(all(perm));
-    return perm;
 }
 
 
