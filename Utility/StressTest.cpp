@@ -80,11 +80,19 @@ vp randomSimpleGraph(ll n, ll m)
     return res;
 }
 
+void shuffleGraph(vp &edges)
+{
+    shuffle(all(edges), gen);
+    for (auto &x : edges) if (randomNumber(0, 1) == 0) swap(x.f, x.s);
+}
+
 vp generateChain(ll n)
 {
     v perm = randomPerm(n);
     vp res;
     for (ll i = 0; i < n - 1; i++) res.eb(perm[i], perm[i + 1]);
+    shuffleGraph(res);
+    return res;
 }
 
 vp generateStar(ll n, ll center = -1)
@@ -92,13 +100,8 @@ vp generateStar(ll n, ll center = -1)
     if (center == -1) center = randomNumber(0, n - 1);
     vp res;
     for (ll i = 0; i < n; i++) if (i != center) res.eb(i, center);
+    shuffleGraph(res);
     return res;
-}
-
-void shuffleGraph(vp &edges)
-{
-    shuffle(all(edges), gen);
-    for (auto &x : edges) if (randomNumber(0, 1) == 0) swap(x.f, x.s);
 }
 
 vv graphFromEdgeArray(ll n, vp &edges)
