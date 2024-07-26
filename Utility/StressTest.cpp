@@ -24,26 +24,35 @@ v randomPerm(ll n, bool oneIndex = false)
     return perm;
 }
 
+void shuffleGraph(vp &edges)
+{
+    shuffle(all(edges), gen);
+    for (auto &x : edges) if (randomNumber(0, 1) == 0) swap(x.f, x.s);
+}
+
 vp randomTree(ll n)
 {
     v prufer = randomArray(n - 2, 0, n - 1);
     vp edges;
     v degree(n, 1);
     for (ll i = 0; i < n - 2; i++) degree[prufer[i]]++;
-    set<ll> degree1;
-    for (ll i = 0; i < n; i++) if (degree[i] == 1) degree1.insert(i);
+    ll ptr = 0;
+    while (degree[ptr] != 1) ptr++;
+    ll leaf = ptr;
     for (ll i : prufer)
     {
-        ll j = *degree1.begin();
-        degree1.erase(j);
-        edges.eb(i, j);
-        degree[i]--;
-        if (degree[i] == 0) degree1.erase(i);
-        else if (degree[i] == 1) degree1.insert(i);
+        edges.eb(leaf, i);
+        if (--degree[i] == 1 && i < ptr)
+            leaf = i;
+        else
+        {
+            ptr++;
+            while (degree[ptr] != 1) ptr++;
+            leaf = ptr;
+        }
     }
-    v degree1vec;
-    for (ll x : degree1) degree1vec.pb(x);
-    edges.eb(degree1vec[0],degree1vec[1]);
+    edges.eb(leaf, n - 1);
+    shuffleGraph(edges);
     return edges;
 }
 
@@ -84,12 +93,6 @@ vp randomSimpleGraph(ll n, ll m)
         edges.emplace(i, j);
     }
     return res;
-}
-
-void shuffleGraph(vp &edges)
-{
-    shuffle(all(edges), gen);
-    for (auto &x : edges) if (randomNumber(0, 1) == 0) swap(x.f, x.s);
 }
 
 vp generateChain(ll n)
