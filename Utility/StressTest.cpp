@@ -95,21 +95,21 @@ vp randomSimpleGraph(ll n, ll m)
     return res;
 }
 
-vp generateChain(ll n)
+vp generateRootedChain(ll n)
 {
     v perm = randomPerm(n);
     vp res;
     for (ll i = 0; i < n - 1; i++) res.eb(perm[i], perm[i + 1]);
-    shuffleGraph(res);
+    shuffle(all(res), gen);
     return res;
 }
 
-vp generateStar(ll n, ll center = -1)
+vp generateRootedStar(ll n, ll center = -1)
 {
     if (center == -1) center = randomNumber(0, n - 1);
     vp res;
     for (ll i = 0; i < n; i++) if (i != center) res.eb(i, center);
-    shuffleGraph(res);
+    shuffle(all(res), gen);
     return res;
 }
 
@@ -124,6 +124,26 @@ vv graphFromEdgeArray(ll n, vp &edges)
     return res;
 }
 
+vp toRootedTree(vp tree)
+{
+    ll n = tree.size() + 1;
+    vv graph = graphFromEdgeArray(n, tree);
+    ll root = randomNumber(0, n - 1);
+    stack<p> dfs;
+    dfs.emplace(root, -1);
+    vb visited(n, false);
+    vp res;
+    while (!dfs.empty())
+    {
+        auto top = dfs.top();
+        dfs.pop();
+        if (visited[top.f]) continue;
+        visited[top.f] = true;
+        if (top.s != -1) res.pb(top);
+        for (ll x: graph[top.f]) dfs.emplace(x, top.f);
+    }
+    return res;
+}
 
 const ll _MAX_PATH_SIZE = 200;
 const ll _BUFFER_SIZE = 100;
